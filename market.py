@@ -1,29 +1,44 @@
 from datetime import datetime, timezone
 from .candles import CandleBuilder
+from .schemas import MarketTick
+
+TIMEFRAMES = ("1m", "5m", "15m", "30m", "1h", "4h", "1d")
 
 class MarketService:
     def __init__(self):
         self.snapshots = {}
         self.candles = {}
         self.builders = {}
-        self.subscribers = set()
 
-    def update_tick(self, symbol, price, bid=None, ask=None, volume=0.0, timestamp=None):
-        ts = timestamp or datetime.now(timezone.utc)
-        self.snapshots[symbol] = {'symbol':symbol,'timestamp':ts,'price':price,'bid':bid,'ask':ask,'status':'live','provider':'external'}
-        completed=[]
-        for tf in ('1m','5m','15m','1h','4h','1d'):
-            key=(symbol,tf)
-            b=self.builders.setdefault(key,CandleBuilder(symbol,tf))
-            c=b.update(ts,price,volume)
-            if c:
-                self.candles.setdefault(key,[]).append(c); completed.append(c)
+    def update_tick(self, tick: MarketTick):
+        ts = tick.timestamp or datetime.now(timezone.utc)
+        self.snapshots[tick.symbol] = {
+            "symbol": tick.symbol, "timestamp": ts, "price": tick.price,
+            "bid": tick.bid, "ask": tick.ask, "status": "live",
+            "provider": "ingestion",
+        }
+        completed = []
+        for tf in TIMEFRAMES:
+            key = (tick.symbol, tf)
+            builder = self.builders.setdefault(key, CandleBuilder(tick.symbol, tf))
+            candle = builder.update(ts, tick.price, tick.volume)
+            if candle:
+                self.candles.setdefault(key, []).append(candle)
+                self.candles[key] = self.candles[key][-5000:]
+                completed.append(candle)
         return completed
 
-    def snapshot(self,symbol):
-        return self.snapshots.get(symbol, {'symbol':symbol,'timestamp':datetime.now(timezone.utc),'price':None,'bid':None,'ask':None,'status':'provider-not-configured','provider':'none'})
+    def snapshot(self, symbol: str):
+        return self.snapshots.get(symbol, {
+            "symbol": symbol,
+            "timestamp": datetime.now(timezone.utc),
+            "price": None, "bid": None, "ask": None,
+            "status": "provider-not-configured", "provider": "none",
+        })
 
-    def get_candles(self,symbol,timeframe,limit=500):
-        return self.candles.get((symbol,timeframe),[])[-limit:]
+    def get_candles(self, symbol: str, timeframe: str, limit: int = 500):
+        if timeframe not in TIMEFRAMES:
+            raise ValueError(f"Unsupported timeframe: {timeframe}")
+        return self.candles.get((symbol, timeframe), [])[-min(limit, 5000):]
 
-market_service=MarketService()
+market_service = MarketService()
