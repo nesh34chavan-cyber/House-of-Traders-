@@ -1,1 +1,342 @@
+*{box-sizing:border-box}
 
+html,body{
+  margin:0;
+  min-height:100%;
+  overflow-x:hidden
+}
+
+body{
+  background:#070a0f;
+  color:#e8edf5;
+  font:14px Inter,Arial,sans-serif
+}
+
+header{
+  min-height:64px;
+  border-bottom:1px solid #1b2430;
+  display:flex;
+  align-items:center;
+  padding:0 22px;
+  gap:28px;
+  background:#0b0f15
+}
+
+.brand{
+  font-weight:900;
+  letter-spacing:2px;
+  font-size:18px;
+  white-space:nowrap
+}
+
+.brand span{
+  color:#66b3ff
+}
+
+.tag{
+  color:#738197;
+  font-size:11px;
+  letter-spacing:1.5px;
+  flex:1
+}
+
+#clock{
+  font-variant-numeric:tabular-nums;
+  color:#9aa8ba;
+  white-space:nowrap
+}
+
+main{
+  display:grid;
+  grid-template-columns:220px minmax(0,1fr);
+  min-height:calc(100vh - 64px)
+}
+
+aside{
+  border-right:1px solid #1b2430;
+  padding:20px 16px;
+  background:#090d13
+}
+
+h3{
+  font-size:11px;
+  letter-spacing:1.5px;
+  color:#6f7d90;
+  margin:8px 0 14px
+}
+
+.sys{
+  line-height:2.1;
+  color:#8190a3;
+  font-size:11px
+}
+
+.sys b{
+  color:#9fd3a8;
+  font-weight:600
+}
+
+#watchlist div{
+  padding:10px 8px;
+  border-radius:7px;
+  margin-bottom:4px;
+  color:#b8c3d2
+}
+
+.active{
+  background:#121b26;
+  color:#fff!important
+}
+
+section{
+  padding:22px;
+  max-width:1500px;
+  width:100%;
+  min-width:0;
+  margin:auto
+}
+
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:18px;
+  min-width:0
+}
+
+.top>div:first-child{
+  min-width:0
+}
+
+.top small{
+  color:#738197
+}
+
+.top h1{
+  font-size:38px;
+  margin:5px 0
+}
+
+.top span{
+  font-size:10px;
+  color:#f2b84b
+}
+
+.cards{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  justify-content:flex-end
+}
+
+.cards div,
+.grid article{
+  background:#0c121a;
+  border:1px solid #1b2430;
+  border-radius:9px;
+  padding:14px;
+  min-width:125px;
+  color:#758398;
+  font-size:10px
+}
+
+.cards strong{
+  display:block;
+  color:#e8edf5;
+  font-size:14px;
+  margin-top:8px
+}
+
+.chart{
+  height:430px;
+  width:100%;
+  border:1px solid #1b2430;
+  background:#090e15;
+  border-radius:10px;
+  margin:18px 0;
+  position:relative;
+  overflow:hidden
+}
+
+.chart canvas{
+  display:block;
+  width:100%;
+  height:100%
+}
+
+.empty{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-content:center;
+  text-align:center;
+  color:#66768b;
+  letter-spacing:1px;
+  line-height:2;
+  pointer-events:none
+}
+
+.empty small{
+  letter-spacing:0
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px
+}
+
+.grid article{
+  min-height:100px
+}
+
+.grid p{
+  color:#a1adbd;
+  font-size:12px;
+  line-height:1.5
+}
+
+
+/* TABLET / MOBILE */
+
+@media(max-width:900px){
+
+  main{
+    grid-template-columns:1fr
+  }
+
+  aside{
+    display:none
+  }
+
+  section{
+    padding:16px 14px
+  }
+
+  .top{
+    display:block
+  }
+
+  .top h1{
+    font-size:34px
+  }
+
+  .cards{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:8px;
+    margin-top:14px;
+    justify-content:stretch
+  }
+
+  .cards div{
+    min-width:0;
+    padding:12px
+  }
+
+  .cards strong{
+    font-size:13px
+  }
+
+  .chart{
+    height:320px;
+    margin:14px 0
+  }
+
+  .grid{
+    grid-template-columns:1fr 1fr
+  }
+}
+
+
+/* PHONE */
+
+@media(max-width:560px){
+
+  header{
+    min-height:58px;
+    padding:0 14px;
+    gap:10px
+  }
+
+  .brand{
+    font-size:15px;
+    letter-spacing:1.5px
+  }
+
+  .tag{
+    font-size:8px;
+    line-height:1.35;
+    letter-spacing:1px
+  }
+
+  #clock{
+    font-size:10px
+  }
+
+  section{
+    padding:14px 12px
+  }
+
+  .top h1{
+    font-size:32px
+  }
+
+  .cards{
+    grid-template-columns:1fr 1fr 1fr
+  }
+
+  .cards div{
+    padding:10px 8px
+  }
+
+  .cards strong{
+    font-size:12px;
+    margin-top:6px
+  }
+
+  .chart{
+    height:300px;
+    border-radius:8px
+  }
+
+  .empty{
+    font-size:9px;
+    padding:20px
+  }
+
+  .grid{
+    grid-template-columns:1fr
+  }
+
+  .grid article{
+    min-height:82px;
+    padding:13px
+  }
+}
+
+
+/* VERY SMALL PHONES */
+
+@media(max-width:380px){
+
+  .tag{
+    display:none
+  }
+
+  #clock{
+    margin-left:auto
+  }
+
+  .top h1{
+    font-size:29px
+  }
+
+  .cards{
+    grid-template-columns:1fr
+  }
+
+  .chart{
+    height:270px
+  }
+}
