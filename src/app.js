@@ -2,7 +2,7 @@
   const API =
     new URLSearchParams(location.search).get("api") ||
     localStorage.getItem("HOT_API_URL") ||
-    "";
+    "https://traders-inc-api.onrender.com/api/v1";
 
   const symbols = [
     "XAUUSD", "XAGUSD", "EURUSD",
