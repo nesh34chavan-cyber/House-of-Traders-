@@ -13,8 +13,8 @@ class Settings(BaseSettings):
     )
 
     market_data_provider: str = "twelve_data"
-twelve_data_api_key: str = ""
-twelve_data_base_url: str = "https://api.twelvedata.com"
+    twelve_data_api_key: str = ""
+    twelve_data_base_url: str = "https://api.twelvedata.com"
 
     database_url: str = (
         "postgresql+psycopg://trader:trader_dev"
